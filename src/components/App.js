@@ -7,7 +7,11 @@ import VideosList from './VideoList';
 
 class App extends React.Component {
     
-    state = {videos: []}
+    state = {videos: [], selectedVideo: null }
+
+    onVideoSelect = video =>{
+        this.setState({selectedVideo: video});
+    }
 
     getVideoList = async (query) => {
         try {
@@ -17,7 +21,6 @@ class App extends React.Component {
                 }
             });
             this.setState({videos: videos.data.items});
-            console.log(videos.data.items);
             
         } catch (error) {
             console.log(error)
@@ -32,7 +35,7 @@ class App extends React.Component {
                         <SearchBar onSubmitForm={this.getVideoList}/>
                     </div>
                     <div className="ui container">
-                        <VideosList videos={this.state.videos}/>
+                        <VideosList onVideoSelect={this.onVideoSelect} videos={this.state.videos}/>
                     </div>
                 </>
             )
