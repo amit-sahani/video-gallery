@@ -3,6 +3,7 @@ import SearchBar from './SearchBar';
 import youtube from '../apis/youtube';
 import VideoList from './VideoList';
 import VideosList from './VideoList';
+import VideoDetail from './VideoDetail';
 
 
 class App extends React.Component {
@@ -20,7 +21,10 @@ class App extends React.Component {
                     q: query
                 }
             });
-            this.setState({videos: videos.data.items});
+            this.setState({
+                videos: videos.data.items,
+                selectedVideo: videos.data.items[0]
+            });
             
         } catch (error) {
             console.log(error)
@@ -30,16 +34,22 @@ class App extends React.Component {
 
 
     render(){
-        return (<>
-                    <div className="ui container">
-                        <SearchBar onSubmitForm={this.getVideoList}/>
+        return (<div className="ui container">
+                    <SearchBar onSubmitForm={this.getVideoList} />
+                    <div className="ui grid">
+                        <div className="ui row">
+                            <div className="ten wide column">
+                                <VideoDetail video={this.state.selectedVideo} />
+                            </div>
+                            <div className="six wide column">
+                                <VideosList onVideoSelect={this.onVideoSelect} videos={this.state.videos} />
+                            </div>
+                        </div>
                     </div>
-                    <div className="ui container">
-                        <VideosList onVideoSelect={this.onVideoSelect} videos={this.state.videos}/>
-                    </div>
-                </>
-            )
-            }
+                    
+                    
+                </div>
+            )}
 }
 
 export default App;
