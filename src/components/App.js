@@ -10,6 +10,11 @@ class App extends React.Component {
     
     state = {videos: [], selectedVideo: null }
 
+
+    componentDidMount(){
+        this.getVideoList('new songs');
+    }
+
     onVideoSelect = video =>{
         this.setState({selectedVideo: video});
     }
